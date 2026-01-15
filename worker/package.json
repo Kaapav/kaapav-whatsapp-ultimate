@@ -1,0 +1,40 @@
+{
+  "name": "kaapav-whatsapp-ultimate",
+  "version": "2.0.0",
+  "description": "KAAPAV Ultimate WhatsApp Business Solution",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:prod": "wrangler deploy --env production",
+    "db:create": "wrangler d1 create kaapav-whatsapp-db",
+    "db:init": "wrangler d1 execute kaapav-whatsapp-db --file=schema.sql",
+    "db:init:local": "wrangler d1 execute kaapav-whatsapp-db --local --file=schema.sql",
+    "db:reset": "wrangler d1 execute kaapav-whatsapp-db --command 'DROP TABLE IF EXISTS messages; DROP TABLE IF EXISTS chats; DROP TABLE IF EXISTS customers; DROP TABLE IF EXISTS orders;' && npm run db:init",
+    "kv:create": "wrangler kv:namespace create KAAPAV_KV",
+    "r2:create": "wrangler r2 bucket create kaapav-media",
+    "secret:wa-phone": "wrangler secret put WA_PHONE_ID",
+    "secret:wa-token": "wrangler secret put WA_TOKEN",
+    "secret:openai": "wrangler secret put OPENAI_API_KEY",
+    "secret:razorpay-key": "wrangler secret put RAZORPAY_KEY",
+    "secret:razorpay-secret": "wrangler secret put RAZORPAY_SECRET",
+    "secret:shiprocket": "wrangler secret put SHIPROCKET_TOKEN",
+    "tail": "wrangler tail",
+    "logs": "wrangler tail --format pretty"
+  },
+  "keywords": [
+    "whatsapp",
+    "cloudflare",
+    "workers",
+    "kaapav",
+    "jewellery",
+    "ecommerce",
+    "chatbot"
+  ],
+  "author": "KAAPAV Fashion Jewellery",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

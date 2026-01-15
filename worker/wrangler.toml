@@ -1,0 +1,82 @@
+# ═══════════════════════════════════════════════════════════════
+# KAAPAV WHATSAPP ULTIMATE - CLOUDFLARE WORKER CONFIG
+# ═══════════════════════════════════════════════════════════════
+
+name = "kaapav-whatsapp-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+node_compat = true
+
+# ─────────────────────────────────────────────────────────────────
+# D1 DATABASE
+# ─────────────────────────────────────────────────────────────────
+[[d1_databases]]
+binding = "DB"
+database_name = "kaapav-whatsapp-db"
+database_id = "YOUR_D1_DATABASE_ID"
+
+# ─────────────────────────────────────────────────────────────────
+# KV NAMESPACES
+# ─────────────────────────────────────────────────────────────────
+[[kv_namespaces]]
+binding = "KV"
+id = "YOUR_KV_NAMESPACE_ID"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "YOUR_CACHE_KV_ID"
+
+# ─────────────────────────────────────────────────────────────────
+# R2 STORAGE (for media files)
+# ─────────────────────────────────────────────────────────────────
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "kaapav-media"
+
+# ─────────────────────────────────────────────────────────────────
+# ENVIRONMENT VARIABLES
+# ─────────────────────────────────────────────────────────────────
+[vars]
+VERIFY_TOKEN = "kaapav_whatsapp_2024"
+GRAPH_API_VERSION = "v21.0"
+ENVIRONMENT = "production"
+LOG_LEVEL = "info"
+
+# ─────────────────────────────────────────────────────────────────
+# SECRETS (Set via: wrangler secret put SECRET_NAME)
+# ─────────────────────────────────────────────────────────────────
+# WA_PHONE_ID = "your_phone_number_id"
+# WA_TOKEN = "your_access_token"
+# CATALOG_ID = "your_catalog_id"
+# OPENAI_API_KEY = "your_openai_key"
+# GOOGLE_SHEETS_API_KEY = "your_sheets_key"
+# GOOGLE_SHEET_ID = "your_sheet_id"
+# RAZORPAY_KEY = "your_razorpay_key"
+# RAZORPAY_SECRET = "your_razorpay_secret"
+# SHIPROCKET_TOKEN = "your_shiprocket_token"
+# N8N_WEBHOOK_URL = "your_n8n_webhook"
+
+# ─────────────────────────────────────────────────────────────────
+# ROUTES & DOMAINS
+# ─────────────────────────────────────────────────────────────────
+routes = [
+    { pattern = "api.kaapav.com/*", zone_name = "kaapav.com" }
+]
+
+# ─────────────────────────────────────────────────────────────────
+# CRON TRIGGERS (Scheduled Tasks)
+# ─────────────────────────────────────────────────────────────────
+[triggers]
+crons = [
+    "*/5 * * * *",      # Every 5 minutes - check for reminders
+    "0 3 * * *",        # 8:30 AM IST - Morning tasks
+    "0 12 * * *",       # 5:30 PM IST - Evening tasks
+    "0 0 * * *"         # Midnight - Daily cleanup
+]
+
+# ─────────────────────────────────────────────────────────────────
+# DEVELOPMENT
+# ─────────────────────────────────────────────────────────────────
+[dev]
+port = 8787
+local_protocol = "http"
